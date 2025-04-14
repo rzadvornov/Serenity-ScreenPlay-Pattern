@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "array",
+  "default": [],
+  "title": "Root Schema",
+  "items": {
+    "type": "object",
+    "title": "A Schema",
+    "required": [
+      "provider",
+      "title",
+      "url",
+      "brand",
+      "price",
+      "unit",
+      "isPromo",
+      "promoDetails",
+      "image"
+    ],
+    "properties": {
+      "provider": {
+        "type": "string",
+        "title": "The provider Schema"
+      },
+      "title": {
+        "type": "string",
+        "title": "The title Schema"
+      },
+      "url": {
+        "type": "string",
+        "title": "The url Schema"
+      },
+      "brand": {
+        "type": "string",
+        "title": "The brand Schema"
+      },
+      "price": {
+        "type": "number",
+        "title": "The price Schema"
+      },
+      "unit": {
+        "type": "string",
+        "title": "The unit Schema"
+      },
+      "isPromo": {
+        "type": "boolean",
+        "title": "The isPromo Schema"
+      },
+      "promoDetails": {
+        "type": [
+          "string",
+          "boolean"
+        ],
+        "title": "The promoDetails Schema"
+      },
+      "image": {
+        "type": "string",
+        "title": "The image Schema"
+      }
+    }
+  }
+}

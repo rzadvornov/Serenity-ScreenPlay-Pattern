@@ -1,8 +1,5 @@
 package org.softindustry.com.constant.products;
 
-import lombok.Getter;
-
-@Getter
 public enum Apples {
 
     APPLE( "apple" );
@@ -13,5 +10,8 @@ public enum Apples {
         this.typeOfApple = typeOfApple;
     }
 
+    public String getTypeOfApple() {
+        return typeOfApple;
+    }
 
 }

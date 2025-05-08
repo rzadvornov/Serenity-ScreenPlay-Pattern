@@ -129,7 +129,7 @@ public class SearchStepDefinitions {
 
     private void checkResponseContent(String item) {
         List<LinkedHashMap> root = SearchResults.body().answeredBy(actor).jsonPath().getList("$");
-        List<String> products = ProductFactory.getProducts(item);
+        List<String> products = ProductFactory.getProducts(ProductType.valueOf(item.toUpperCase()));
         actor.attemptsTo(
                 Ensure.that(getFoundResults(products, root)).isEqualTo((long) root.size())
         );

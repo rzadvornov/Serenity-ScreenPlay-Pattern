@@ -1,8 +1,5 @@
 package org.softindustry.com.constant.products;
 
-import lombok.Getter;
-
-@Getter
 public enum Colas {
 
     COLA( "cola" ),
@@ -14,4 +11,7 @@ public enum Colas {
         this.typeOfCola = typeOfCola;
     }
 
+    public String getTypeOfCola() {
+        return typeOfCola;
+    }
 }

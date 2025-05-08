@@ -1,8 +1,5 @@
 package org.softindustry.com.constant.products;
 
-import lombok.Getter;
-
-@Getter
 public enum Oranges {
 
     ORANGE( "orange" ),
@@ -14,5 +11,9 @@ public enum Oranges {
 
     Oranges(String typeOfOrange) {
         this.typeOfOrange = typeOfOrange;
+    }
+
+    public String getTypeOfOrange() {
+        return typeOfOrange;
     }
 }

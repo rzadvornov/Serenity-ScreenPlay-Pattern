@@ -1,8 +1,5 @@
 package org.softindustry.com.constant.products;
 
-import lombok.Getter;
-
-@Getter
 public enum Pastas {
 
     PASTA( "pasta"),
@@ -28,5 +25,7 @@ public enum Pastas {
         this.typeOfPasta = typeOfPasta;
     }
 
-
+    public String getTypeOfPasta() {
+        return typeOfPasta;
+    }
 }

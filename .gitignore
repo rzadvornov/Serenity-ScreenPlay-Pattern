@@ -1,0 +1,33 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Compiled class files
+*.class
+
+# Package Files #
+*.jar
+
+# Log files
+*.log
+logs/
+
+# IntelliJ IDEA IDE specific files
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.project
+.classpath
+.settings/
+.DS_Store # Mac OS
+Thumbs.db # Windows
+
+# Test reports
+surefire-reports/
+failsafe-reports/

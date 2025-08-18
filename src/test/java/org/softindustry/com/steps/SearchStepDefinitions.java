@@ -9,7 +9,7 @@ import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.ensure.Ensure;
 import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
-import net.thucydides.core.util.EnvironmentVariables;
+import net.thucydides.model.util.EnvironmentVariables;
 import org.softindustry.com.config.EnvConfigs;
 import org.softindustry.com.constant.products.*;
 import org.softindustry.com.screenplay.questions.SearchResults;

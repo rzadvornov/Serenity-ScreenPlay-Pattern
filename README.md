@@ -4,7 +4,7 @@ This project is an API testing framework built with Serenity BDD and Cucumber, d
 
 ## Prerequisites
 
-- Java 17 or higher ([Installation Guide](https://docs.oracle.com/en/java/javase/17/install/overview-jdk-installation.html))
+- Java 21 or higher ([Installation Guide](https://docs.oracle.com/en/java/javase/17/install/overview-jdk-installation.html))
 - Maven 3.8.1 or higher ([Installation Guide](https://maven.apache.org/install.html))
 
 ## Getting Started

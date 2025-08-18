@@ -106,7 +106,7 @@ The framework has been upgraded with the following improvements:
     - Updated Serenity to the latest version
     - Upgraded from Cucumber 6 to Cucumber 7
     - Upgraded from JUnit 4 to JUnit 5 (running in vintage mode)
-    - Standardized on Java 17 (LTS version)
+    - Standardized on Java 21 (LTS version)
 
 4. **Library enhancements**:
     - Implemented RestAssured for API requests

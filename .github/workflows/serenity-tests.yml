@@ -37,6 +37,7 @@ jobs:
         docker start -ai $CONTAINER_ID
 
     - name: Generate Serenity reports
+      if: always()
       run: |
         docker run --rm \
           -v ${{ github.workspace }}/target:/app/target \
@@ -44,6 +45,7 @@ jobs:
           mvn serenity:aggregate -Dserenity.project.dir=/app
 
     - name: Copy Serenity reports to workspace
+      if: always()
       run: |
         docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target/site/serenity ./target/site/serenity
         docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target/failsafe-reports ./target/failsafe-reports

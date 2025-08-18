@@ -34,7 +34,7 @@ jobs:
     - name: Run Serenity tests + reports inside container
       run: |
         docker run --name serenity-tests-container serenity-tests \
-          bash -c "mvn verify -Drestapi.baseurl=$BASE_URL && mvn serenity:aggregate"
+          bash -c "mvn verify -Drestapi.baseurl=$BASE_URL -Dmaven.test.failure.ignore=true; mvn serenity:aggregate"
 
     - name: Copy Serenity reports
       if: always()

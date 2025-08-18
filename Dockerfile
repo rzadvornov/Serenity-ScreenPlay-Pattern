@@ -14,4 +14,4 @@ USER mavenuser
 
 RUN mkdir -p /home/mavenuser/.m2
 
-CMD ["sh", "-c", "rm -rf /app/target && mvn -Dmaven.clean.skip=true verify -Drestapi.baseurl=https://waarkoop-server.herokuapp.com/"]
+CMD ["mvn", "verify", "-Drestapi.baseurl=https://waarkoop-server.herokuapp.com/"]

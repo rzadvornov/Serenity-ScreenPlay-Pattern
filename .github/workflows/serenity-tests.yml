@@ -11,6 +11,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     
+    env:
+      MAVEN_IMAGE: maven:3.9.4-eclipse-temurin-21
+      APP_DIR: /app
+      BASE_URL: https://waarkoop-server.herokuapp.com/
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -20,20 +25,24 @@ jobs:
       
     - name: Build Docker image
       run: |
-        docker build -t serenity-tests .
+        docker build \
+          --build-arg MAVEN_IMAGE=${{ env.MAVEN_IMAGE }} \
+          --build-arg APP_DIR=${{ env.APP_DIR }} \
+          --build-arg BASE_URL=${{ env.BASE_URL }} \
+          -t serenity-tests .
         
     - name: Run Serenity tests in Docker
       run: |
         docker run --rm \
-          -v ${{ github.workspace }}/target:/app/target \
+          -v ${{ github.workspace }}/target:${{ env.APP_DIR }}/target \
           serenity-tests \
-          mvn clean verify -Drestapi.baseurl=https://waarkoop-server.herokuapp.com/
+          mvn clean verify -Drestapi.baseurl=${{ env.BASE_URL }}
       continue-on-error: true  # Continue even if tests fail to generate reports
       
     - name: Generate Serenity reports
       run: |
         docker run --rm \
-          -v ${{ github.workspace }}/target:/app/target \
+          -v ${{ github.workspace }}/target:${{ env.APP_DIR }}/target \
           serenity-tests \
           mvn serenity:aggregate
       if: always()  # Always generate reports

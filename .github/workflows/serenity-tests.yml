@@ -36,13 +36,13 @@ jobs:
         CONTAINER_ID=$(docker run -d serenity-tests tail -f /dev/null)
 
         # Run tests
-        docker exec $CONTAINER_ID mvn clean verify -Drestapi.baseurl=${{ env.BASE_URL }} || true
+        docker exec $CONTAINER_ID bash -c "cd $APP_DIR && mvn clean verify -Drestapi.baseurl=${BASE_URL}" || true
 
         # Generate reports inside the same container
-        docker exec $CONTAINER_ID mvn serenity:aggregate -Dserenity.project.dir=${{ env.APP_DIR }} || true
+        docker exec $CONTAINER_ID bash -c "cd $APP_DIR && mvn serenity:aggregate" || true
 
         # Copy reports back to GitHub workspace
-        docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target ./target
+        docker cp $CONTAINER_ID:${APP_DIR}/target ./target
 
         docker stop $CONTAINER_ID
         docker rm $CONTAINER_ID

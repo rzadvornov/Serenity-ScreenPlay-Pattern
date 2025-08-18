@@ -5,7 +5,7 @@ RUN useradd -m -d /home/mavenuser -s /bin/bash mavenuser
 WORKDIR /app
 
 COPY pom.xml .
-RUN mvn dependency:go-offline -B && mvn clean
+RUN mvn dependency:go-offline -B
 
 COPY src ./src
 

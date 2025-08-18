@@ -39,8 +39,9 @@ jobs:
     - name: Copy Serenity reports
       if: always()
       run: |
-        docker cp serenity-tests-container:${{ env.APP_DIR }}/target/site/serenity ./target/site/serenity
-        docker cp serenity-tests-container:${{ env.APP_DIR }}/target/failsafe-reports ./target/failsafe-reports
+        mkdir -p ./target/site ./target/failsafe-reports
+        docker cp serenity-tests-container:/app/target/site/serenity ./target/site/serenity
+        docker cp serenity-tests-container:/app/target/failsafe-reports ./target/failsafe-reports
         docker rm serenity-tests-container
 
     - name: Upload test results

@@ -1,16 +1,18 @@
-# Define build-time args with defaults
+# Build args (can be overridden in `docker build`)
 ARG MAVEN_IMAGE=maven:3.9.4-eclipse-temurin-21
-ARG APP_DIR=/app
-ARG BASE_URL=https://waarkoop-server.herokuapp.com/
 
 FROM ${MAVEN_IMAGE}
 
-# Persist args as environment variables
-ENV APP_DIR=${APP_DIR}
-ENV BASE_URL=${BASE_URL}
+# Re-declare args after FROM (Docker scoping rule)
+ARG APP_DIR=/app
+ARG BASE_URL=https://waarkoop-server.herokuapp.com/
 
-# Set working directory (absolute path)
-WORKDIR ${APP_DIR}
+# Promote args to env so they are available at runtime
+ENV APP_DIR=$APP_DIR
+ENV BASE_URL=$BASE_URL
+
+# Use ENV for workdir (safe absolute path)
+WORKDIR $APP_DIR
 
 # Copy pom.xml and download dependencies
 COPY pom.xml .
@@ -19,5 +21,5 @@ RUN mvn dependency:go-offline -B
 # Copy source code
 COPY src ./src
 
-# Run tests by default (JSON exec form for CMD)
+# Default command (exec form)
 CMD ["mvn", "verify", "-Drestapi.baseurl=${BASE_URL}"]

@@ -20,6 +20,9 @@ COPY src ./src
 
 # Set BASE_URL as ENV
 ENV BASE_URL=${BASE_URL}
+ENV PROJECT_DIR=${APP_DIR}
 
 # Run tests with shell form (allows ENV expansion)
-CMD mvn verify -Drestapi.baseurl=${BASE_URL}
+CMD mvn verify \
+    -Drestapi.baseurl=${BASE_URL} \
+    -Dserenity.project.dir=${PROJECT_DIR}

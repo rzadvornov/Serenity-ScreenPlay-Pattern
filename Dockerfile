@@ -9,11 +9,14 @@ WORKDIR /app
 COPY --chown=mavenuser:mavenuser pom.xml .
 COPY --chown=mavenuser:mavenuser src ./src
 
+# Fix ownership of /app (so target/ will also be owned by mavenuser)
+RUN chown -R mavenuser:mavenuser /app
+
 # Switch to user
 USER mavenuser
 
-# Ensure Maven local repo exists and writable
-RUN mkdir -p /home/mavenuser/.m2 && chmod -R 755 /home/mavenuser/.m2
+# Ensure Maven local repo exists
+RUN mkdir -p /home/mavenuser/.m2
 
 RUN mvn dependency:go-offline -B
 

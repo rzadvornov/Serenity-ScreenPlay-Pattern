@@ -1,24 +1,28 @@
 FROM maven:3.9.4-eclipse-temurin-21
 
-# Create non-root user with home dir
+# Create non-root user with home
 RUN useradd -m -d /home/mavenuser -s /bin/bash mavenuser
 
+# Set working directory
 WORKDIR /app
 
-# Copy pom.xml and give ownership immediately
-COPY --chown=mavenuser:mavenuser pom.xml .
+# Give ownership of the whole /app directory to mavenuser
+RUN chown -R mavenuser:mavenuser /app
 
-# Switch to non-root user *before* running Maven
+# Switch to non-root user before running any Maven command
 USER mavenuser
 
-# Ensure local Maven repo exists
+# Ensure Maven local repo exists
 RUN mkdir -p /home/mavenuser/.m2
 
-# Download dependencies (runs as mavenuser)
+# Copy pom.xml (files already owned by mavenuser)
+COPY pom.xml .
+
+# Download dependencies
 RUN mvn dependency:go-offline -B
 
-# Copy source code with correct ownership
-COPY --chown=mavenuser:mavenuser src ./src
+# Copy source code
+COPY src ./src
 
-# Run tests (no clean to avoid target deletion issues)
+# Run tests (skip clean to avoid target deletion issues)
 CMD ["mvn", "verify", "-Dmaven.clean.skip=true", "-Drestapi.baseurl=https://waarkoop-server.herokuapp.com/"]

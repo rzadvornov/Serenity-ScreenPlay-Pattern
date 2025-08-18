@@ -31,22 +31,16 @@ jobs:
           --build-arg BASE_URL=${{ env.BASE_URL }} \
           -t serenity-tests .
 
-    - name: Ensure target folder is writable
-      run: sudo chown -R $USER:$USER target || true
-
-    - name: Run Serenity tests in Docker
+    - name: Run Serenity tests inside Docker
       run: |
-        docker run --rm \
-          -v ${{ github.workspace }}/target:${{ env.APP_DIR }}/target \
-          serenity-tests
-      continue-on-error: true
+        CONTAINER_ID=$(docker create serenity-tests)
+        docker start -ai $CONTAINER_ID
 
-    - name: Generate Serenity reports
+    - name: Copy Serenity reports to workspace
       run: |
-        docker run --rm \
-          -v ${{ github.workspace }}/target:${{ env.APP_DIR }}/target \
-          serenity-tests mvn serenity:aggregate
-      if: always()
+        docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target/site/serenity ./target/site/serenity
+        docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target/failsafe-reports ./target/failsafe-reports
+        docker rm $CONTAINER_ID
 
     - name: Upload test results
       uses: actions/upload-artifact@v4

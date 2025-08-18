@@ -31,24 +31,20 @@ jobs:
           --build-arg BASE_URL=${{ env.BASE_URL }} \
           -t serenity-tests .
 
-    - name: Run Serenity tests inside Docker
+    - name: Run tests and generate Serenity reports inside container
       run: |
-        CONTAINER_ID=$(docker create serenity-tests)
-        docker start -ai $CONTAINER_ID
+        CONTAINER_ID=$(docker run -d serenity-tests tail -f /dev/null)
 
-    - name: Generate Serenity reports
-      if: always()
-      run: |
-        docker run --rm \
-          -v ${{ github.workspace }}/target:/app/target \
-          serenity-tests \
-          mvn serenity:aggregate -Dserenity.project.dir=/app
+        # Run tests
+        docker exec $CONTAINER_ID mvn clean verify -Drestapi.baseurl=${{ env.BASE_URL }} || true
 
-    - name: Copy Serenity reports to workspace
-      if: always()
-      run: |
-        docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target/site/serenity ./target/site/serenity
-        docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target/failsafe-reports ./target/failsafe-reports
+        # Generate reports inside the same container
+        docker exec $CONTAINER_ID mvn serenity:aggregate -Dserenity.project.dir=${{ env.APP_DIR }} || true
+
+        # Copy reports back to GitHub workspace
+        docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target ./target
+
+        docker stop $CONTAINER_ID
         docker rm $CONTAINER_ID
 
     - name: Upload test results

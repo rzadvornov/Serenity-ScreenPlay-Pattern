@@ -1,6 +1,9 @@
-FROM maven:3.9.4-eclipse-temurin-21
+ARG MAVEN_IMAGE=maven:3.9.4-eclipse-temurin-21
+ARG APP_DIR=/app
 
-WORKDIR /app
+FROM ${MAVEN_IMAGE}
+
+WORKDIR ${APP_DIR}
 
 # Copy pom.xml and download dependencies
 COPY pom.xml .

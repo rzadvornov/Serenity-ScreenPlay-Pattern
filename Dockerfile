@@ -1,19 +1,20 @@
 FROM maven:3.9.4-eclipse-temurin-21
 
-# Create user & group
-RUN groupadd -r mavenuser && useradd -r -g mavenuser mavenuser
+# Create user with home dir
+RUN useradd -m -d /home/mavenuser -s /bin/bash mavenuser
 
 WORKDIR /app
 
-# Copy pom.xml and src with proper ownership
+# Copy pom.xml and src with ownership
 COPY --chown=mavenuser:mavenuser pom.xml .
 COPY --chown=mavenuser:mavenuser src ./src
 
-# Switch to non-root user
+# Switch to user
 USER mavenuser
 
-# Download dependencies
+# Ensure Maven local repo exists and writable
+RUN mkdir -p /home/mavenuser/.m2 && chmod -R 755 /home/mavenuser/.m2
+
 RUN mvn dependency:go-offline -B
 
-# Run tests
 CMD ["mvn", "clean", "verify", "-Drestapi.baseurl=https://waarkoop-server.herokuapp.com/"]

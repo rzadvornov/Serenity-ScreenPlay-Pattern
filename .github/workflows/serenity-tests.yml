@@ -17,70 +17,71 @@ jobs:
       BASE_URL: https://waarkoop-server.herokuapp.com/
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
-        run: |
-          docker build \
-            --build-arg MAVEN_IMAGE=${{ env.MAVEN_IMAGE }} \
-            --build-arg APP_DIR=${{ env.APP_DIR }} \
-            --build-arg BASE_URL=${{ env.BASE_URL }} \
-            -t serenity-tests .
+    - name: Build Docker image
+      run: |
+        docker build \
+          --build-arg MAVEN_IMAGE=${{ env.MAVEN_IMAGE }} \
+          --build-arg APP_DIR=${{ env.APP_DIR }} \
+          --build-arg BASE_URL=${{ env.BASE_URL }} \
+          -t serenity-tests .
 
-      - name: Run Serenity tests inside Docker
-        run: |
-          CONTAINER_ID=$(docker create serenity-tests)
-          docker start -ai $CONTAINER_ID
+    - name: Run Serenity tests inside Docker
+      run: |
+        CONTAINER_ID=$(docker create serenity-tests)
+        docker start -ai $CONTAINER_ID
 
-      - name: Generate Serenity reports
-        run: |
-          docker run --rm serenity-tests \
-            mvn serenity:aggregate -Dserenity.project.dir=/app
-        if: always()
+    - name: Generate Serenity reports
+      run: |
+        docker run --rm \
+          -v ${{ github.workspace }}/target:/app/target \
+          serenity-tests \
+          mvn serenity:aggregate -Dserenity.project.dir=/app
 
-      - name: Copy Serenity reports to workspace
-        run: |
-          docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target/site/serenity ./target/site/serenity
-          docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target/failsafe-reports ./target/failsafe-reports
-          docker rm $CONTAINER_ID
+    - name: Copy Serenity reports to workspace
+      run: |
+        docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target/site/serenity ./target/site/serenity
+        docker cp $CONTAINER_ID:${{ env.APP_DIR }}/target/failsafe-reports ./target/failsafe-reports
+        docker rm $CONTAINER_ID
 
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: serenity-reports
-          path: |
-            target/site/serenity/
-            target/failsafe-reports/
-          retention-days: 30
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: serenity-reports
+        path: |
+          target/site/serenity/
+          target/failsafe-reports/
+        retention-days: 30
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/site/serenity
-          destination_dir: serenity-reports
-          force_orphan: true
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: always()
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./target/site/serenity
+        destination_dir: serenity-reports
+        force_orphan: true
 
-      - name: Comment PR with report link
-        uses: actions/github-script@v7
-        if: github.event_name == 'pull_request' && always()
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## 📊 Serenity Test Reports
+    - name: Comment PR with report link
+      uses: actions/github-script@v7
+      if: github.event_name == 'pull_request' && always()
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## 📊 Serenity Test Reports
 
-              The test reports are available at: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/serenity-reports/
+            The test reports are available at: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/serenity-reports/
 
-              - 📈 [Full Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/serenity-reports/index.html)
-              - 🎯 [Requirements Coverage](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/serenity-reports/requirements.html)
-              - 🧪 [Test Results](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/serenity-reports/capabilities.html)`
-            })
+            - 📈 [Full Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/serenity-reports/index.html)
+            - 🎯 [Requirements Coverage](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/serenity-reports/requirements.html)
+            - 🧪 [Test Results](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/serenity-reports/capabilities.html)`
+          })

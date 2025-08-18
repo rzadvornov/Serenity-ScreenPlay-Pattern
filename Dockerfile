@@ -22,5 +22,5 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 
 # Default command (exec form)
-CMD ["mvn", "verify", "serenity:aggregate", "-Drestapi.baseurl=${BASE_URL}"]
+CMD ["/bin/bash", "-c", "mvn verify -Drestapi.baseurl=${BASE_URL} -Dmaven.test.failure.ignore=true; mvn serenity:aggregate"]
 

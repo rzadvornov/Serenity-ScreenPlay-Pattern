@@ -22,4 +22,5 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 
 # Default command (exec form)
-CMD ["mvn", "verify", "-Drestapi.baseurl=${BASE_URL}"]
+CMD ["mvn", "verify", "serenity:aggregate", "-Drestapi.baseurl=${BASE_URL}"]
+

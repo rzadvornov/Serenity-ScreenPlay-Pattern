@@ -16,7 +16,6 @@ import net.serenitybdd.screenplay.ensure.Ensure;
 import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
 import net.thucydides.model.util.EnvironmentVariables;
 import com.rzadvornov.serenity.config.EnvConfigs;
-import org.softindustry.com.constant.products.*;
 
 import java.net.HttpURLConnection;
 import java.util.*;

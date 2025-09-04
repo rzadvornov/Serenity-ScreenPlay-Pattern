@@ -1,4 +1,4 @@
-package org.softindustry.com.screenplay.questions;
+package com.rzadvornov.serenity.screenplay.questions;
 
 import io.restassured.http.Headers;
 import net.serenitybdd.screenplay.Question;

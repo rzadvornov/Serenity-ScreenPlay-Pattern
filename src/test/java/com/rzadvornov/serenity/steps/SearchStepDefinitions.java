@@ -1,7 +1,12 @@
-package org.softindustry.com.steps;
+package com.rzadvornov.serenity.steps;
 
 
 import com.google.common.net.MediaType;
+import com.rzadvornov.serenity.constant.products.ProductFactory;
+import com.rzadvornov.serenity.constant.products.ProductType;
+import com.rzadvornov.serenity.screenplay.questions.SearchResults;
+import com.rzadvornov.serenity.screenplay.tasks.SearchRunner;
+import com.rzadvornov.serenity.utilities.StringUtilities;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -10,11 +15,8 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.ensure.Ensure;
 import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
 import net.thucydides.model.util.EnvironmentVariables;
-import org.softindustry.com.config.EnvConfigs;
+import com.rzadvornov.serenity.config.EnvConfigs;
 import org.softindustry.com.constant.products.*;
-import org.softindustry.com.screenplay.questions.SearchResults;
-import org.softindustry.com.screenplay.tasks.SearchRunner;
-import org.softindustry.com.utilities.StringUtilities;
 
 import java.net.HttpURLConnection;
 import java.util.*;

@@ -1,9 +1,9 @@
-package org.softindustry.com.screenplay.tasks;
+package com.rzadvornov.serenity.screenplay.tasks;
 
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.rest.interactions.Put;
-import org.softindustry.com.config.EnvConfigs;
+import com.rzadvornov.serenity.config.EnvConfigs;
 
 import static net.serenitybdd.screenplay.Tasks.instrumented;
 

@@ -1,4 +1,4 @@
-package org.softindustry.com.utilities;
+package com.rzadvornov.serenity.utilities;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

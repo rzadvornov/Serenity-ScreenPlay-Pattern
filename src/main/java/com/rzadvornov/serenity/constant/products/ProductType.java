@@ -1,4 +1,4 @@
-package org.softindustry.com.constant.products;
+package com.rzadvornov.serenity.constant.products;
 
 import java.util.List;
 

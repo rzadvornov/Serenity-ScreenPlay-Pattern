@@ -7,10 +7,10 @@
  *
  */
 
-package org.softindustry.com.config;
+package com.rzadvornov.serenity.config;
 
 
-import org.softindustry.com.utilities.JsonParser;
+import com.rzadvornov.serenity.utilities.JsonParser;
 
 import java.util.HashMap;
 import java.util.Map;

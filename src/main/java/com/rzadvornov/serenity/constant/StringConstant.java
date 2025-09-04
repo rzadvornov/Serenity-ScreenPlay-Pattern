@@ -6,7 +6,7 @@
  *
  *
  */
-package org.softindustry.com.constant;
+package com.rzadvornov.serenity.constant;
 
 public class StringConstant {
 

@@ -23,10 +23,10 @@ mvn clean install -Drestapi.baseurl=https://waarkoop-server.herokuapp.com/
 ├── src
 │   ├── main
 │   │   └── java
-│   │       └── org.softindustry.com
+│   │       └── com.rzadvornov.serenity
 │   └── test
 │       ├── java
-│       │   └── org.softindustry.com
+│       │   └── com.rzadvornov.serenity
 │       │       ├── steps       # Step definitions
 │       │       └── tests       # Test runners
 │       └── resources
@@ -41,14 +41,14 @@ Create a new `.feature` file in `src/test/resources/features/` directory with yo
 
 ### Step 2: Implement Step Definitions
 
-Add corresponding step definitions in the `org.softindustry.com.steps` package.
+Add corresponding step definitions in the `com.rzadvornov.serenity.steps` package.
 
 ### Step 3: Create Test Runner
 
 ```java
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(features = "src/test/resources/features/search/search_product.feature",
-        glue = "org.softindustry.com.steps")
+        glue = "com.rzadvornov.serenity.steps")
 public class SearchProductTest {
 
     @BeforeClass

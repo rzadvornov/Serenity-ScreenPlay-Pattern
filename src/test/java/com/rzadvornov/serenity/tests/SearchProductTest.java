@@ -1,4 +1,4 @@
-package org.softindustry.com.tests;
+package com.rzadvornov.serenity.tests;
 
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;

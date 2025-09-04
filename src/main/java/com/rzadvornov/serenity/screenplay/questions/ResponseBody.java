@@ -1,4 +1,4 @@
-package org.softindustry.com.screenplay.questions;
+package com.rzadvornov.serenity.screenplay.questions;
 
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Question;

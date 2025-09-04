@@ -7,11 +7,11 @@
  *
  */
 
-package org.softindustry.com.utilities;
+package com.rzadvornov.serenity.utilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.softindustry.com.constant.StringConstant;
+import com.rzadvornov.serenity.constant.StringConstant;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

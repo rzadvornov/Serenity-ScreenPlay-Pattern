@@ -1,4 +1,4 @@
-package org.softindustry.com.screenplay.tasks;
+package com.rzadvornov.serenity.screenplay.tasks;
 
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;

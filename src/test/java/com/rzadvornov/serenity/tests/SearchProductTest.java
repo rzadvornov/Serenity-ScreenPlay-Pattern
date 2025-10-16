@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(features = "src/test/resources/features/search/search_product.feature",
-        glue = "org.softindustry.com.steps")
+        glue = "com.rzadvornov.serenity")
 public class SearchProductTest {
 
 }

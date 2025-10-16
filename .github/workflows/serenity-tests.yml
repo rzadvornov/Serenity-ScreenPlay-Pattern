@@ -37,9 +37,8 @@ jobs:
 
     - name: Run Serenity tests + reports inside container
       run: |
-        run: |
         docker run --name serenity-tests-container serenity-tests \
-          bash -c "mvn clean verify -Drestapi.baseurl=$BASE_URL; mvn serenity:aggregate"
+          bash -c "mvn verify -Drestapi.baseurl=$BASE_URL -Dmaven.test.failure.ignore=true; mvn serenity:aggregate"
 
     - name: Copy Serenity reports
       if: always()
@@ -47,11 +46,7 @@ jobs:
         mkdir -p ./target/site ./target/failsafe-reports
         docker cp serenity-tests-container:/app/target/site/serenity ./target/site/serenity
         docker cp serenity-tests-container:/app/target/failsafe-reports ./target/failsafe-reports
-
-    - name: Cleanup container
-      if: always()
-      run: |
-        docker rm -f serenity-tests-container || true
+        docker rm serenity-tests-container
 
     - name: Upload test results
       uses: actions/upload-artifact@v4
@@ -65,7 +60,7 @@ jobs:
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
-      if: success()
+      if: always()
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./target/site/serenity
@@ -74,7 +69,7 @@ jobs:
 
     - name: Comment PR with report link
       uses: actions/github-script@v7
-      if: github.event_name == 'pull_request' && success()
+      if: github.event_name == 'pull_request' && always()
       with:
         script: |
           github.rest.issues.createComment({

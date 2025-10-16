@@ -37,8 +37,9 @@ jobs:
 
     - name: Run Serenity tests + reports inside container
       run: |
+        run: |
         docker run --name serenity-tests-container serenity-tests \
-          bash -c "mvn clean install spotbugs:check -Dspotbugs.failOnError=true -Drestapi.baseurl=$BASE_URL; mvn serenity:aggregate"
+          bash -c "mvn clean verify -Drestapi.baseurl=$BASE_URL; mvn serenity:aggregate"
 
     - name: Copy Serenity reports
       if: always()

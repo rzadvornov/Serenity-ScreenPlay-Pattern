@@ -1,5 +1,5 @@
 # Build args (can be overridden in `docker build`)
-ARG MAVEN_IMAGE=maven:3.9.4-eclipse-temurin-21
+ARG MAVEN_IMAGE=maven:3.9.6-eclipse-temurin-25
 
 FROM ${MAVEN_IMAGE}
 

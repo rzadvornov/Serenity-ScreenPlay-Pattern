@@ -1,0 +1,111 @@
+graph TB
+    subgraph "Test Layer"
+        TestRunner[JUnit Test Runner]
+        TestScenarios[Test Scenarios]
+        SerenityRunner[Serenity Runner]
+    end
+    
+    subgraph "ScreenPlay Pattern Core"
+        Actor[Actor - Test User]
+        Abilities[Abilities]
+        Tasks[Tasks]
+        Interactions[Interactions]
+        Questions[Questions]
+    end
+    
+    subgraph "Abilities Layer"
+        BrowseTheWeb[Browse The Web]
+        CallAnAPI[Call An API]
+        AccessDatabase[Access Database]
+    end
+    
+    subgraph "Tasks Layer"
+        LoginTask[Login Task]
+        SearchTask[Search Task]
+        CreateTask[Create Item Task]
+        UpdateTask[Update Item Task]
+    end
+    
+    subgraph "Interactions Layer"
+        Click[Click Element]
+        Enter[Enter Text]
+        Select[Select Option]
+        Navigate[Navigate To URL]
+        SendRequest[Send HTTP Request]
+    end
+    
+    subgraph "Questions Layer"
+        VisibilityQuestion[Element Visibility]
+        TextQuestion[Text Content]
+        APIResponseQuestion[API Response Status]
+        DatabaseQuery[Database Query Result]
+    end
+    
+    subgraph "Target Layer"
+        WebUI[Web Application UI]
+        RestAPI[REST API]
+        Database[(Database)]
+    end
+    
+    subgraph "Reporting"
+        SerenityReports[Serenity HTML Reports]
+        Screenshots[Screenshot Manager]
+        TestEvidence[Test Evidence Collector]
+    end
+    
+    TestScenarios --> SerenityRunner
+    SerenityRunner --> TestRunner
+    TestRunner --> Actor
+    
+    Actor --> Abilities
+    Actor --> Tasks
+    Actor --> Questions
+    
+    Abilities --> BrowseTheWeb
+    Abilities --> CallAnAPI
+    Abilities --> AccessDatabase
+    
+    Tasks --> LoginTask
+    Tasks --> SearchTask
+    Tasks --> CreateTask
+    Tasks --> UpdateTask
+    
+    LoginTask --> Interactions
+    SearchTask --> Interactions
+    CreateTask --> Interactions
+    UpdateTask --> Interactions
+    
+    Interactions --> Click
+    Interactions --> Enter
+    Interactions --> Select
+    Interactions --> Navigate
+    Interactions --> SendRequest
+    
+    Questions --> VisibilityQuestion
+    Questions --> TextQuestion
+    Questions --> APIResponseQuestion
+    Questions --> DatabaseQuery
+    
+    BrowseTheWeb --> WebUI
+    CallAnAPI --> RestAPI
+    AccessDatabase --> Database
+    
+    Click --> WebUI
+    Enter --> WebUI
+    Select --> WebUI
+    Navigate --> WebUI
+    SendRequest --> RestAPI
+    
+    VisibilityQuestion --> WebUI
+    TextQuestion --> WebUI
+    APIResponseQuestion --> RestAPI
+    DatabaseQuery --> Database
+    
+    TestRunner --> TestEvidence
+    TestEvidence --> Screenshots
+    TestEvidence --> SerenityReports
+    
+    style Actor fill:#4285f4
+    style SerenityReports fill:#34a853
+    style WebUI fill:#ea4335
+    style RestAPI fill:#fbbc04

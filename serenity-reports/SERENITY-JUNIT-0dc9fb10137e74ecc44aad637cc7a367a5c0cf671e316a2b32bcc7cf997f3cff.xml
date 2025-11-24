@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><testsuite errors="6" failures="4" name="Search for the product" skipped="0" tests="10" time="8.99" timestamp="2025-11-24 01:22:00"><testcase name="Verify search results for available products"><failure message="Expected: Response status code should be 200 that is equal to: &lt;200&gt;&#10;Actual:   &lt;503&gt;" type="java.lang.AssertionError">Expected: Response status code should be 200 that is equal to: &lt;200&gt;
+Actual:   &lt;503&gt;</failure><system-err>Expected: Response status code should be 200 that is equal to: &lt;200&gt;
+Actual:   &lt;503&gt;
+com.rzadvornov.serenity.steps.SearchStepDefinitions.actorGetsResults(SearchStepDefinitions.java:60)
+</system-err></testcase><testcase name="Verify search results for unavailable products"><error message="Cannot invoke &quot;java.lang.Comparable.compareTo(Object)&quot; because &quot;c1&quot; is null" type="java.lang.NullPointerException">Cannot invoke "java.lang.Comparable.compareTo(Object)" because "c1" is null</error><system-err>Cannot invoke "java.lang.Comparable.compareTo(Object)" because "c1" is null
+com.rzadvornov.serenity.steps.SearchStepDefinitions.checkHeaders(SearchStepDefinitions.java:103)
+com.rzadvornov.serenity.steps.SearchStepDefinitions.actorGetsEmptyResults(SearchStepDefinitions.java:71)
+</system-err></testcase><testcase name="Verify search endpoint for not allowed methods"><error message="Cannot invoke &quot;java.lang.Comparable.compareTo(Object)&quot; because &quot;c1&quot; is null" type="java.lang.NullPointerException">Cannot invoke "java.lang.Comparable.compareTo(Object)" because "c1" is null</error><system-err>Cannot invoke "java.lang.Comparable.compareTo(Object)" because "c1" is null
+com.rzadvornov.serenity.steps.SearchStepDefinitions.checkHeaders(SearchStepDefinitions.java:103)
+com.rzadvornov.serenity.steps.SearchStepDefinitions.actorGetsEmptyResults(SearchStepDefinitions.java:71)
+</system-err></testcase></testsuite>

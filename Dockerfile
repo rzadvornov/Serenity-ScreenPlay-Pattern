@@ -26,8 +26,8 @@ ENV APP_DIR=$APP_DIR
 ENV BASE_URL=$BASE_URL
 
 # Install the 'shadow' package which contains 'groupadd' and 'useradd' 
-# The commands are for Alpine Linux (apk)
-RUN apk update && apk add shadow \
+# AND install 'maven' to enable the final CMD execution
+RUN apk update && apk add shadow maven \
     && rm -rf /var/cache/apk/*
 
 # Create a dedicated, non-privileged user and group

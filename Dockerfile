@@ -17,7 +17,7 @@ RUN mvn test-compile -B
 # ==========================================
 # Stage 2: Runtime - Test Execution (Secured)
 # ==========================================
-FROM temurin:21-jdk-slim
+FROM eclipse-temurin:21-jdk-slim
 
 ARG APP_DIR=/app
 ARG BASE_URL=https://waarkoop-server.herokuapp.com/

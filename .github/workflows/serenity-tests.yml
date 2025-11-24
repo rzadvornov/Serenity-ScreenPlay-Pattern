@@ -25,6 +25,7 @@ jobs:
 
     - name: Build Docker image
       env:
+        # These look complex but ensure the correct value is used
         FINAL_BASE_URL: ${{ vars.BASE_URL || env.BASE_URL }}
         FINAL_APP_DIR: ${{ vars.APP_DIR || env.APP_DIR }}
         FINAL_MAVEN_IMAGE: ${{ vars.MAVEN_IMAGE || env.MAVEN_IMAGE }}
@@ -37,15 +38,22 @@ jobs:
 
     - name: Run Serenity tests + reports inside container
       run: |
-        docker run --name serenity-tests-container serenity-tests \
-          bash -c "mvn verify -Drestapi.baseurl=$BASE_URL -Dmaven.test.failure.ignore=true; mvn serenity:aggregate"
+        docker run --name serenity-tests-container \
+          --env BASE_URL=${{ env.BASE_URL }} \
+          serenity-tests
 
     - name: Copy Serenity reports
       if: always()
       run: |
+        # Create destination directories locally
         mkdir -p ./target/site ./target/failsafe-reports
-        docker cp serenity-tests-container:/app/target/site/serenity ./target/site/serenity
-        docker cp serenity-tests-container:/app/target/failsafe-reports ./target/failsafe-reports
+        
+        # Copy reports from container
+        # Note: If the container failed, these copies may still error, but the 'if: always()' ensures we attempt cleanup.
+        docker cp serenity-tests-container:/app/target/site/serenity ./target/site/serenity || true
+        docker cp serenity-tests-container:/app/target/failsafe-reports ./target/failsafe-reports || true
+        
+        # Remove container for cleanup
         docker rm serenity-tests-container
 
     - name: Upload test results

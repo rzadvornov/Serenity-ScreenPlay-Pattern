@@ -25,6 +25,11 @@ ARG BASE_URL=https://waarkoop-server.herokuapp.com/
 ENV APP_DIR=$APP_DIR
 ENV BASE_URL=$BASE_URL
 
+# Install the 'shadow' package which contains 'groupadd' and 'useradd' 
+# The commands are for Alpine Linux (apk)
+RUN apk update && apk add shadow \
+    && rm -rf /var/cache/apk/*
+
 # Create a dedicated, non-privileged user and group
 RUN groupadd -r appgroup && useradd -r -g appgroup appuser
 

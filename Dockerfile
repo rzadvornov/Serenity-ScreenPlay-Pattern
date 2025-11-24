@@ -47,6 +47,12 @@ COPY --from=builder /root/.m2 /root/.m2
 
 # Give the non-root user ownership of the application directory
 RUN chown -R appuser:appgroup $APP_DIR
+
+# --- FIX APPLIED HERE ---
+# Grant read access to the copied /root/.m2 directory for the appuser.
+# Since it's outside the user's home, we use a global read permission (a+r).
+RUN chmod -R a+r /root/.m2
+
 # Switch to the non-root user for the final execution
 USER appuser
 

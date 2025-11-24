@@ -25,14 +25,15 @@ ARG BASE_URL=https://waarkoop-server.herokuapp.com/
 ENV APP_DIR=$APP_DIR
 ENV BASE_URL=$BASE_URL
 
-# Install the 'shadow' package which contains 'groupadd' and 'useradd' 
-# AND install 'maven' to enable the final CMD execution
+ENV HOME=/home/appuser
+
+# Install packages
 RUN apk update && apk add shadow maven \
     && rm -rf /var/cache/apk/*
 
-# Create a dedicated, non-privileged user and group
-RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+RUN groupadd -r appgroup && useradd -r -g appgroup -d $HOME appuser
 
+# The appuser must own their home and their .m2 folder to write the repository.
 RUN mkdir -p $HOME/.m2 \
     && chown -R appuser:appgroup $HOME
 
@@ -44,15 +45,12 @@ COPY --from=builder $APP_DIR/src ./src
 COPY --from=builder $APP_DIR/target/classes ./target/classes
 COPY --from=builder $APP_DIR/target/test-classes ./target/test-classes
 
-WORKDIR $APP_DIR
+# 2. Maven dependency cache (Optional but recommended for speed)
+# If you want to use the cache, copy it to the new user's home and set ownership.
+# If you skip this, Maven will re-download everything on the first run, but it will work.
+COPY --from=builder /root/.m2 $HOME/.m2 
+RUN chown -R appuser:appgroup $HOME/.m2
 
-# 1. Copy compiled project files
-COPY --from=builder $APP_DIR/pom.xml .
-COPY --from=builder $APP_DIR/src ./src
-COPY --from=builder $APP_DIR/target/classes ./target/classes
-COPY --from=builder $APP_DIR/target/test-classes ./target/test-classes
-
-# 2. Copy the cached Maven dependencies
 # Give the non-root user ownership of the application directory
 RUN chown -R appuser:appgroup $APP_DIR
 

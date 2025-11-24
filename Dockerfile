@@ -33,6 +33,17 @@ RUN apk update && apk add shadow maven \
 # Create a dedicated, non-privileged user and group
 RUN groupadd -r appgroup && useradd -r -g appgroup appuser
 
+RUN mkdir -p $HOME/.m2 \
+    && chown -R appuser:appgroup $HOME
+
+WORKDIR $APP_DIR
+
+# 1. Copy compiled project files
+COPY --from=builder $APP_DIR/pom.xml .
+COPY --from=builder $APP_DIR/src ./src
+COPY --from=builder $APP_DIR/target/classes ./target/classes
+COPY --from=builder $APP_DIR/target/test-classes ./target/test-classes
+
 WORKDIR $APP_DIR
 
 # 1. Copy compiled project files
@@ -42,15 +53,8 @@ COPY --from=builder $APP_DIR/target/classes ./target/classes
 COPY --from=builder $APP_DIR/target/test-classes ./target/test-classes
 
 # 2. Copy the cached Maven dependencies
-# Note: The /root/.m2 folder is outside $APP_DIR, so ownership change is not required for it.
-COPY --from=builder /root/.m2 /root/.m2
-
 # Give the non-root user ownership of the application directory
 RUN chown -R appuser:appgroup $APP_DIR
-
-# Grant read access to the copied /root/.m2 directory for the appuser.
-# Since it's outside the user's home, we use a global read permission (a+r).
-RUN chmod -R a+r /root/.m2
 
 # Switch to the non-root user for the final execution
 USER appuser

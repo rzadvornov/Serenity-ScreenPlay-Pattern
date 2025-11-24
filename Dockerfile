@@ -51,4 +51,4 @@ RUN chown -R appuser:appgroup $APP_DIR
 USER appuser
 
 # Set the final command to execute Serenity tests and aggregate reports
-CMD ["/bin/bash", "-c", "mvn verify -Drestapi.baseurl=${BASE_URL} -Dmaven.test.failure.ignore=true; mvn serenity:aggregate"]
+CMD ["/bin/sh", "-c", "mvn verify -Drestapi.baseurl=${BASE_URL} -Dmaven.test.failure.ignore=true; mvn serenity:aggregate"]
